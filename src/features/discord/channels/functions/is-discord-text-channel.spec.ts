@@ -1,6 +1,6 @@
 import { isDiscordTextChannel } from './is-discord-text-channel';
 import { DMChannel, NewsChannel, TextChannel } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 describe(`isDiscordTextChannel()`, (): void => {
   let channel: TextChannel | DMChannel | NewsChannel | null | undefined;
@@ -35,7 +35,7 @@ describe(`isDiscordTextChannel()`, (): void => {
 
   describe(`when the given value is a "TextChannel" instance`, (): void => {
     beforeEach((): void => {
-      channel = createMock<TextChannel>();
+      channel = createHydratedMock<TextChannel>();
     });
 
     // @todo fix it omg this should works

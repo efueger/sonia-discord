@@ -32,7 +32,7 @@ import { Guild, GuildChannel, Message, TextChannel } from 'discord.js';
 import * as admin from 'firebase-admin';
 import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 import QueryDocumentSnapshot = admin.firestore.QueryDocumentSnapshot;
 import QuerySnapshot = admin.firestore.QuerySnapshot;
 import WriteBatch = admin.firestore.WriteBatch;
@@ -114,7 +114,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
       sendNewReleaseNotesToEachGuild$Spy = jest
         .spyOn(service, `sendNewReleaseNotesToEachGuild$`)
-        .mockReturnValue(of(createMock<Message[][]>()));
+        .mockReturnValue(of(createHydratedMock<Message[][]>()));
     });
 
     it(`should send a new release note to each known guild`, async (): Promise<void> => {
@@ -186,12 +186,12 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
     beforeEach((): void => {
       service = new FirebaseGuildsNewVersionService();
       isReady$ = new BehaviorSubject<[true]>([true]);
-      firebaseGuild = createMock<IFirebaseGuildVFinal>({
+      firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>({
         id: `dummy-id`,
         lastReleaseNotesVersion: `1.0.0`,
         version: FirebaseGuildVersionEnum.V5,
       });
-      queryDocumentSnapshot = createMock<QueryDocumentSnapshot<IFirebaseGuild>>({
+      queryDocumentSnapshot = createHydratedMock<QueryDocumentSnapshot<IFirebaseGuild>>({
         data: (): IFirebaseGuild => firebaseGuild,
       });
       forEachMock = jest
@@ -199,12 +199,12 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
         .mockImplementation((callback: (result: QueryDocumentSnapshot<IFirebaseGuild>) => void): void => {
           callback(queryDocumentSnapshot);
         });
-      querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+      querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
         forEach: forEachMock,
       });
       commitMock = jest.fn().mockRejectedValue(new Error(`Commit error`));
       updateMock = jest.fn().mockImplementation();
-      writeBatch = createMock<WriteBatch>({
+      writeBatch = createHydratedMock<WriteBatch>({
         commit: commitMock,
         update: updateMock,
       });
@@ -220,7 +220,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
       appConfigServiceGetVersionSpy = jest.spyOn(appConfigService, `getVersion`).mockImplementation();
       sendNewReleaseNotesFromFirebaseGuildSpy = jest
         .spyOn(service, `sendNewReleaseNotesFromFirebaseGuild`)
-        .mockResolvedValue(createMock<Message[]>());
+        .mockResolvedValue(createHydratedMock<Message[]>());
     });
 
     it(`should wait that everything is ready`, async (): Promise<void> => {
@@ -444,7 +444,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
           describe(`when there is no Firebase guild`, (): void => {
             beforeEach((): void => {
               forEachMock = jest.fn().mockImplementation();
-              querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+              querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
                 forEach: forEachMock,
               });
 
@@ -490,7 +490,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
           describe(`when there is one Firebase guild but it does not exists`, (): void => {
             beforeEach((): void => {
-              queryDocumentSnapshot = createMock<QueryDocumentSnapshot<IFirebaseGuild>>({
+              queryDocumentSnapshot = createHydratedMock<QueryDocumentSnapshot<IFirebaseGuild>>({
                 data: (): IFirebaseGuild => firebaseGuild,
                 exists: false,
               });
@@ -499,7 +499,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
                 .mockImplementation((callback: (result: QueryDocumentSnapshot<IFirebaseGuild>) => void): void => {
                   callback(queryDocumentSnapshot);
                 });
-              querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+              querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
                 forEach: forEachMock,
               });
 
@@ -545,11 +545,11 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
           describe(`when there is one Firebase guild on v1`, (): void => {
             beforeEach((): void => {
-              firebaseGuild = createMock<IFirebaseGuildV1>({
+              firebaseGuild = createHydratedMock<IFirebaseGuildV1>({
                 id: `dummy-id`,
                 version: FirebaseGuildVersionEnum.V1,
               });
-              queryDocumentSnapshot = createMock<QueryDocumentSnapshot<IFirebaseGuild>>({
+              queryDocumentSnapshot = createHydratedMock<QueryDocumentSnapshot<IFirebaseGuild>>({
                 data: (): IFirebaseGuild => firebaseGuild,
                 exists: true,
               });
@@ -558,7 +558,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
                 .mockImplementation((callback: (result: QueryDocumentSnapshot<IFirebaseGuild>) => void): void => {
                   callback(queryDocumentSnapshot);
                 });
-              querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+              querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
                 forEach: forEachMock,
               });
 
@@ -604,7 +604,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
           describe(`when there is one Firebase guild`, (): void => {
             beforeEach((): void => {
-              queryDocumentSnapshot = createMock<QueryDocumentSnapshot<IFirebaseGuild>>({
+              queryDocumentSnapshot = createHydratedMock<QueryDocumentSnapshot<IFirebaseGuild>>({
                 data: (): IFirebaseGuild => firebaseGuild,
                 exists: true,
               });
@@ -613,7 +613,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
                 .mockImplementation((callback: (result: QueryDocumentSnapshot<IFirebaseGuild>) => void): void => {
                   callback(queryDocumentSnapshot);
                 });
-              querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+              querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
                 forEach: forEachMock,
               });
 
@@ -723,7 +723,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
               describe(`when the batch commit was successful`, (): void => {
                 beforeEach((): void => {
-                  commitMock.mockResolvedValue(createMock<WriteResult[]>());
+                  commitMock.mockResolvedValue(createHydratedMock<WriteResult[]>());
                 });
 
                 it(`should send the release notes message for the guild`, async (): Promise<void> => {
@@ -760,7 +760,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
           describe(`when there are two Firebase guilds`, (): void => {
             beforeEach((): void => {
-              queryDocumentSnapshot = createMock<QueryDocumentSnapshot<IFirebaseGuild>>({
+              queryDocumentSnapshot = createHydratedMock<QueryDocumentSnapshot<IFirebaseGuild>>({
                 data: (): IFirebaseGuild => firebaseGuild,
                 exists: true,
               });
@@ -770,7 +770,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
                   callback(queryDocumentSnapshot);
                   callback(queryDocumentSnapshot);
                 });
-              querySnapshot = createMock<QuerySnapshot<IFirebaseGuildVFinal>>({
+              querySnapshot = createHydratedMock<QuerySnapshot<IFirebaseGuildVFinal>>({
                 forEach: forEachMock,
               });
 
@@ -880,7 +880,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
               describe(`when the batch commit was successful`, (): void => {
                 beforeEach((): void => {
-                  commitMock.mockResolvedValue(createMock<WriteResult[]>());
+                  commitMock.mockResolvedValue(createHydratedMock<WriteResult[]>());
                 });
 
                 it(`should send the release notes message for the guilds`, async (): Promise<void> => {
@@ -929,10 +929,10 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     beforeEach((): void => {
       service = new FirebaseGuildsNewVersionService();
-      firebaseGuild = createMock<IFirebaseGuildVFinal>({
+      firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>({
         version: FirebaseGuildVersionEnum.V5,
       });
-      guild = createMock<Guild>({
+      guild = createHydratedMock<Guild>({
         id: `dummy-id`,
       });
 
@@ -1092,10 +1092,10 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     beforeEach((): void => {
       service = new FirebaseGuildsNewVersionService();
-      channel = createMock<IFirebaseGuildChannel>();
-      firebaseGuild = createMock<IFirebaseGuildVFinal>();
+      channel = createHydratedMock<IFirebaseGuildChannel>();
+      firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>();
       guildChannelsGetMock = jest.fn().mockImplementation();
-      guild = createMock<Guild>({
+      guild = createHydratedMock<Guild>({
         channels: {
           cache: {
             get: guildChannelsGetMock,
@@ -1115,7 +1115,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     describe(`when the given Firebase guild channel id is undefined`, (): void => {
       beforeEach((): void => {
-        channel = createMock<IFirebaseGuildChannel>({
+        channel = createHydratedMock<IFirebaseGuildChannel>({
           id: undefined,
         });
       });
@@ -1137,7 +1137,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     describe(`when the given Firebase guild channel id is valid`, (): void => {
       beforeEach((): void => {
-        channel = createMock<IFirebaseGuildChannel>({
+        channel = createHydratedMock<IFirebaseGuildChannel>({
           id: `dummy-channel-id`,
         });
       });
@@ -1145,7 +1145,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
       describe(`when the given Firebase guild has a valid release notes feature`, (): void => {
         describe(`when the given Firebase guild has a valid release note feature disabled`, (): void => {
           beforeEach((): void => {
-            firebaseGuild = createMock<IFirebaseGuildVFinal>({
+            firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>({
               channels: {
                 'dummy-channel-id': {
                   features: {
@@ -1181,7 +1181,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
         describe(`when the given Firebase guild has a valid release notes feature enabled`, (): void => {
           beforeEach((): void => {
-            firebaseGuild = createMock<IFirebaseGuildVFinal>({
+            firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>({
               channels: {
                 'dummy-channel-id': {
                   features: {
@@ -1249,7 +1249,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
             let guildChannel: GuildChannel;
 
             beforeEach((): void => {
-              guildChannel = createMock<GuildChannel>({
+              guildChannel = createHydratedMock<GuildChannel>({
                 id: `dummy-guild-channel-id`,
               });
 
@@ -1299,7 +1299,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
               let message: Message;
 
               beforeEach((): void => {
-                message = createMock<Message>();
+                message = createHydratedMock<Message>();
 
                 sendMessageResponseSpy.mockResolvedValue(message);
               });
@@ -1330,10 +1330,10 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     beforeEach((): void => {
       service = new FirebaseGuildsNewVersionService();
-      guildChannel = createMock<GuildChannel>({
+      guildChannel = createHydratedMock<GuildChannel>({
         id: `dummy-guild-channel-id`,
       });
-      discordMessageResponse = createMock<IDiscordMessageResponse>();
+      discordMessageResponse = createHydratedMock<IDiscordMessageResponse>();
 
       loggerServiceDebugSpy = jest.spyOn(loggerService, `debug`).mockImplementation();
       loggerServiceErrorSpy = jest.spyOn(loggerService, `error`).mockImplementation();
@@ -1348,7 +1348,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     describe(`when the given guild channel is not writable`, (): void => {
       beforeEach((): void => {
-        guildChannel = createMock<GuildChannel>({
+        guildChannel = createHydratedMock<GuildChannel>({
           id: `dummy-guild-channel-id`,
           isText(): false {
             return false;
@@ -1376,7 +1376,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
       beforeEach((): void => {
         sendMock = jest.fn().mockRejectedValue(new Error(`send error`));
-        guildChannel = createMock<TextChannel>({
+        guildChannel = createHydratedMock<TextChannel>({
           id: `dummy-guild-channel-id`,
           isText(): true {
             return true;
@@ -1413,7 +1413,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
       describe(`when the message response was successfully fetched`, (): void => {
         beforeEach((): void => {
           getMessageResponseSpy.mockResolvedValue(
-            createMock<IDiscordMessageResponse>({
+            createHydratedMock<IDiscordMessageResponse>({
               options: {
                 split: false,
               },
@@ -1500,7 +1500,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
           let message: Message;
 
           beforeEach((): void => {
-            message = createMock<Message>();
+            message = createHydratedMock<Message>();
 
             sendMock.mockResolvedValue(message);
           });
@@ -1592,7 +1592,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
     describe(`when the message response was successfully fetched`, (): void => {
       beforeEach((): void => {
         discordMessageCommandReleaseNotesServiceGetMessageResponseSpy.mockResolvedValue(
-          createMock<IDiscordMessageResponse>({
+          createHydratedMock<IDiscordMessageResponse>({
             options: {
               split: false,
             },
@@ -1640,7 +1640,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     beforeEach((): void => {
       service = new FirebaseGuildsNewVersionService();
-      guild = createMock<Guild>({
+      guild = createHydratedMock<Guild>({
         id: `dummy-guild-id`,
       });
 
@@ -1703,7 +1703,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     describe(`when the Firebase guild was successfully fetched`, (): void => {
       beforeEach((): void => {
-        firebaseGuild = createMock<IFirebaseGuildVFinal>();
+        firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>();
 
         firebaseGuildsServiceGetGuildSpy.mockResolvedValue(firebaseGuild);
       });
@@ -1804,13 +1804,13 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
         let channel2: IFirebaseGuildChannelVFinal;
 
         beforeEach((): void => {
-          channel1 = createMock<IFirebaseGuildChannelVFinal>({
+          channel1 = createHydratedMock<IFirebaseGuildChannelVFinal>({
             id: `dummy-channel-id-1`,
           });
-          channel2 = createMock<IFirebaseGuildChannelVFinal>({
+          channel2 = createHydratedMock<IFirebaseGuildChannelVFinal>({
             id: `dummy-channel-id-2`,
           });
-          firebaseGuild = createMock<IFirebaseGuildVFinal>({
+          firebaseGuild = createHydratedMock<IFirebaseGuildVFinal>({
             channels: {
               'dummy-channel-id-1': channel1,
               'dummy-channel-id-2': channel2,
@@ -1880,7 +1880,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
             let message: Message;
 
             beforeEach((): void => {
-              message = createMock<Message>();
+              message = createHydratedMock<Message>();
 
               sendMessageByChannelSpy.mockResolvedValue(message);
             });
@@ -1941,7 +1941,7 @@ describe(`FirebaseGuildsNewVersionService`, (): void => {
 
     describe(`when the given Firebase guild is valid`, (): void => {
       beforeEach((): void => {
-        firebaseGuild = createMock<IFirebaseGuild>();
+        firebaseGuild = createHydratedMock<IFirebaseGuild>();
       });
 
       it(`should check if the guild is up-to-date`, (): void => {

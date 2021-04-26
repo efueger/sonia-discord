@@ -1,6 +1,6 @@
 import { isDiscordMessage } from './is-discord-message';
 import { Message } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 describe(`isDiscordMessage()`, (): void => {
   let message: unknown;
@@ -65,7 +65,7 @@ describe(`isDiscordMessage()`, (): void => {
 
   describe(`when the given value is a "Message" instance`, (): void => {
     beforeEach((): void => {
-      message = createMock<Message>();
+      message = createHydratedMock<Message>();
     });
 
     // @todo fix it omg this should works

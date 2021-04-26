@@ -15,7 +15,7 @@ import { IDiscordCommandFlagSuccess } from '../../../../../../interfaces/command
 import { IAnyDiscordMessage } from '../../../../../../types/any-discord-message';
 import { Message } from 'discord.js';
 import admin from 'firebase-admin';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 import WriteResult = admin.firestore.WriteResult;
 
 jest.mock(`../../../../../../../../logger/services/chalk/chalk.service`);
@@ -53,7 +53,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageCommandFeatureReleaseNotesEnabled();
-      anyDiscordMessage = createMock<IAnyDiscordMessage>({
+      anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
         id: `dummy-id`,
       });
       value = undefined;
@@ -117,7 +117,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
       describe(`when the Discord message guild is not valid`, (): void => {
         beforeEach((): void => {
-          anyDiscordMessage = createMock<IAnyDiscordMessage>({
+          anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
             guild: null,
             id: `dummy-id`,
           });
@@ -140,7 +140,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
       describe(`when the Discord message guild is valid`, (): void => {
         beforeEach((): void => {
-          anyDiscordMessage = createMock<IAnyDiscordMessage>({
+          anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
             guild: {},
             id: `dummy-id`,
           });
@@ -148,7 +148,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Discord message channel is not a text channel`, (): void => {
           beforeEach((): void => {
-            anyDiscordMessage = createMock<IAnyDiscordMessage>({
+            anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
               channel: {
                 id: `dummy-channel-id`,
                 type: `news`,
@@ -181,7 +181,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Discord message channel is a DM channel`, (): void => {
           beforeEach((): void => {
-            anyDiscordMessage = createMock<IAnyDiscordMessage>({
+            anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
               channel: {
                 id: `dummy-channel-id`,
                 type: `dm`,
@@ -547,7 +547,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Discord message channel is a text channel`, (): void => {
           beforeEach((): void => {
-            anyDiscordMessage = createMock<Message>({
+            anyDiscordMessage = createHydratedMock<Message>({
               channel: {
                 id: `dummy-channel-id`,
                 type: `text`,
@@ -925,8 +925,8 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageCommandFeatureReleaseNotesEnabled();
-      anyDiscordMessage = createMock<IAnyDiscordMessage>();
-      firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>();
+      anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>();
+      firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>();
 
       loggerServiceErrorSpy = jest.spyOn(loggerService, `error`).mockImplementation();
       firebaseGuildsStoreQueryGetEntitySpy = jest
@@ -942,7 +942,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
     describe(`when the given Discord message guild is null`, (): void => {
       beforeEach((): void => {
-        anyDiscordMessage = createMock<IAnyDiscordMessage>({
+        anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>({
           guild: null,
           id: `dummy-id`,
         });
@@ -974,7 +974,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
     describe(`when the given Discord message guild is valid`, (): void => {
       beforeEach((): void => {
-        anyDiscordMessage = createMock<Message>({
+        anyDiscordMessage = createHydratedMock<Message>({
           channel: {
             id: `dummy-channel-id`,
           },
@@ -1032,7 +1032,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Firebase guilds store channels are empty`, (): void => {
           beforeEach((): void => {
-            firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+            firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
               channels: {},
               version: FirebaseGuildVersionEnum.V5,
             });
@@ -1051,7 +1051,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Firebase guilds are v1`, (): void => {
           beforeEach((): void => {
-            firebaseGuildVFinal = createMock<IFirebaseGuildV1>({
+            firebaseGuildVFinal = createHydratedMock<IFirebaseGuildV1>({
               version: FirebaseGuildVersionEnum.V1,
             });
 
@@ -1069,7 +1069,7 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the Firebase guilds are v2`, (): void => {
           beforeEach((): void => {
-            firebaseGuildVFinal = createMock<IFirebaseGuildV2>({
+            firebaseGuildVFinal = createHydratedMock<IFirebaseGuildV2>({
               version: FirebaseGuildVersionEnum.V2,
             });
 
@@ -1087,9 +1087,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the given Discord message channel does not exist in the Firebase guilds store channels`, (): void => {
           beforeEach((): void => {
-            firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+            firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
               channels: {
-                'bad-dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                'bad-dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                   id: `bad-dummy-channel-id`,
                 }),
               },
@@ -1110,9 +1110,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
         describe(`when the given Discord message channel exist in the Firebase guilds store channels`, (): void => {
           beforeEach((): void => {
-            firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+            firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
               channels: {
-                'dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                'dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                   id: `dummy-channel-id`,
                 }),
               },
@@ -1124,9 +1124,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
           describe(`when the channel does not have the release notes feature configured yet`, (): void => {
             beforeEach((): void => {
-              firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+              firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
                 channels: {
-                  'dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                  'dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                     features: {
                       releaseNotes: undefined,
                     },
@@ -1150,9 +1150,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
           describe(`when the channel does not have the release notes feature enabled option configured yet`, (): void => {
             beforeEach((): void => {
-              firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+              firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
                 channels: {
-                  'dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                  'dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                     features: {
                       releaseNotes: {
                         isEnabled: undefined,
@@ -1216,9 +1216,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
               describe(`when the channel has the release notes feature enabled`, (): void => {
                 beforeEach((): void => {
-                  firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+                  firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
                     channels: {
-                      'dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                      'dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                         features: {
                           releaseNotes: {
                             isEnabled: true,
@@ -1244,9 +1244,9 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
 
               describe(`when the channel has the release notes feature disabled`, (): void => {
                 beforeEach((): void => {
-                  firebaseGuildVFinal = createMock<IFirebaseGuildVFinal>({
+                  firebaseGuildVFinal = createHydratedMock<IFirebaseGuildVFinal>({
                     channels: {
-                      'dummy-channel-id': createMock<IFirebaseGuildChannelVFinal>({
+                      'dummy-channel-id': createHydratedMock<IFirebaseGuildChannelVFinal>({
                         features: {
                           releaseNotes: {
                             isEnabled: false,
@@ -1289,11 +1289,11 @@ describe(`DiscordMessageCommandFeatureReleaseNotesEnabled`, (): void => {
       service = new DiscordMessageCommandFeatureReleaseNotesEnabled();
       shouldEnable = false;
       isEnabled = undefined;
-      firebaseGuild = createMock<IFirebaseGuild>();
-      channel = createMock<IAnyDiscordChannel>({
+      firebaseGuild = createHydratedMock<IFirebaseGuild>();
+      channel = createHydratedMock<IAnyDiscordChannel>({
         id: `dummy-channel-id`,
       });
-      writeResult = createMock<WriteResult>();
+      writeResult = createHydratedMock<WriteResult>();
 
       firebaseGuildsChannelsFeaturesReleaseNotesEnabledServiceUpdateStateByGuildIdSpy = jest
         .spyOn(firebaseGuildsChannelsFeaturesReleaseNotesEnabledService, `updateStateByGuildId`)

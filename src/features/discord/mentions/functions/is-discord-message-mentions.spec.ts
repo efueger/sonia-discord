@@ -1,6 +1,6 @@
 import { isDiscordMessageMentions } from './is-discord-message-mentions';
 import { MessageMentions } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 describe(`isDiscordMessageMentions()`, (): void => {
   let mention: unknown;
@@ -65,7 +65,7 @@ describe(`isDiscordMessageMentions()`, (): void => {
 
   describe(`when the given value is a "MessageMentions" instance`, (): void => {
     beforeEach((): void => {
-      mention = createMock<MessageMentions>();
+      mention = createHydratedMock<MessageMentions>();
     });
 
     // @todo fix it omg this should works

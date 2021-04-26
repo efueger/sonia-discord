@@ -1,6 +1,6 @@
 import { isDiscordClientUser } from './is-discord-client-user';
 import { ClientUser } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 describe(`isDiscordClientUser()`, (): void => {
   let user: unknown;
@@ -65,7 +65,7 @@ describe(`isDiscordClientUser()`, (): void => {
 
   describe(`when the given value is a "ClientUser" instance`, (): void => {
     beforeEach((): void => {
-      user = createMock<ClientUser>();
+      user = createHydratedMock<ClientUser>();
     });
 
     // @todo fix it omg this should works

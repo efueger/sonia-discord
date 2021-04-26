@@ -1,6 +1,6 @@
 import { isDiscordGuild } from './is-discord-guild';
 import { Guild } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 describe(`isDiscordGuild()`, (): void => {
   let guild: unknown;
@@ -65,7 +65,7 @@ describe(`isDiscordGuild()`, (): void => {
 
   describe(`when the given value is a "Guild" instance`, (): void => {
     beforeEach((): void => {
-      guild = createMock<Guild>();
+      guild = createHydratedMock<Guild>();
     });
 
     // @todo fix it omg this should works

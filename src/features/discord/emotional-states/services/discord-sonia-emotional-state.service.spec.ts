@@ -13,7 +13,7 @@ import { DiscordSoniaEmotionalStateEnum } from '../enums/discord-sonia-emotional
 import _ from 'lodash';
 import * as NodeScheduleModule from 'node-schedule';
 import { BehaviorSubject } from 'rxjs';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 jest.mock(`../../../logger/services/chalk/chalk.service`);
 jest.mock(`node-schedule`);
@@ -204,7 +204,7 @@ describe(`DiscordSoniaEmotionalStateService`, (): void => {
         .mockReturnValueOnce(`dummy-schedule`)
         .mockReturnValueOnce(`dummy-new-schedule`);
       service = new DiscordSoniaEmotionalStateService();
-      job = createMock<NodeScheduleModule.Job>({
+      job = createHydratedMock<NodeScheduleModule.Job>({
         reschedule: jobRescheduleMock,
       });
 

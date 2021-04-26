@@ -5,7 +5,7 @@ import { ILoggerLog } from '../../logger/interfaces/logger-log';
 import { LoggerService } from '../../logger/services/logger.service';
 import { FirebaseAppEnum } from '../enums/firebase-app.enum';
 import * as admin from 'firebase-admin';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 import App = admin.app.App;
 
 jest.mock(`../../logger/services/chalk/chalk.service`);
@@ -68,7 +68,7 @@ describe(`FirebaseAppService`, (): void => {
     beforeEach((): void => {
       service = new FirebaseAppService();
 
-      credential = createMock<admin.credential.Credential>();
+      credential = createHydratedMock<admin.credential.Credential>();
       loggerServiceDebugSpy = jest.spyOn(loggerService, `debug`).mockImplementation();
       loggerServiceErrorSpy = jest.spyOn(loggerService, `error`).mockImplementation();
       initializeAppSpy = jest.spyOn(admin, `initializeApp`).mockImplementation();
@@ -169,7 +169,7 @@ describe(`FirebaseAppService`, (): void => {
 
     beforeEach((): void => {
       service = new FirebaseAppService();
-      app = createMock<App>();
+      app = createHydratedMock<App>();
 
       jest.spyOn(admin, `initializeApp`).mockReturnValue(app);
     });

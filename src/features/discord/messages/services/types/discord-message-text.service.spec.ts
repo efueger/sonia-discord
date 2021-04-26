@@ -17,7 +17,7 @@ import { DiscordMessageAuthorService } from '../responses/discord-message-author
 import { DiscordMessageHotelTrivagoService } from '../responses/discord-message-hotel-trivago.service';
 import { DiscordMessagePingPongService } from '../responses/discord-message-ping-pong.service';
 import { Message, PartialMessage } from 'discord.js';
-import { createMock } from 'ts-auto-mock';
+import { createHydratedMock } from 'ts-auto-mock';
 
 jest.mock(`../../../../logger/services/chalk/chalk.service`);
 
@@ -97,7 +97,7 @@ describe(`DiscordMessageTextService`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageTextService();
-      anyDiscordMessage = createMock<IAnyDiscordMessage>();
+      anyDiscordMessage = createHydratedMock<IAnyDiscordMessage>();
 
       discordAuthorServiceIsValidSpy = jest.spyOn(discordAuthorService, `isValid`).mockImplementation();
       discordMentionServiceIsValidSpy = jest.spyOn(discordMentionService, `isValid`).mockImplementation();
@@ -185,7 +185,7 @@ describe(`DiscordMessageTextService`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageTextService();
-      discordMessage = createMock<IDiscordMessage>({
+      discordMessage = createHydratedMock<IDiscordMessage>({
         id: `dummy-id`,
       });
 
@@ -317,7 +317,7 @@ describe(`DiscordMessageTextService`, (): void => {
         let sonia: ISonia;
 
         beforeEach((): void => {
-          sonia = createMock<ISonia>();
+          sonia = createHydratedMock<ISonia>();
 
           discordSoniaServiceGetSoniaSpy.mockReturnValue(sonia);
           discordSoniaServiceIsValidSpy.mockReturnValue(true);
@@ -376,7 +376,7 @@ describe(`DiscordMessageTextService`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageTextService();
-      anyDiscordMessage = createMock<PartialMessage>({
+      anyDiscordMessage = createHydratedMock<PartialMessage>({
         id: `dummy-id`,
       });
 
@@ -403,7 +403,7 @@ describe(`DiscordMessageTextService`, (): void => {
 
     describe(`when the given message is a partial message`, (): void => {
       beforeEach((): void => {
-        anyDiscordMessage = createMock<PartialMessage>();
+        anyDiscordMessage = createHydratedMock<PartialMessage>();
       });
 
       it(`should throw an error about not being a valid message`, async (): Promise<void> => {
@@ -466,7 +466,7 @@ describe(`DiscordMessageTextService`, (): void => {
 
     beforeEach((): void => {
       service = new DiscordMessageTextService();
-      discordMessage = createMock<IDiscordMessage>({
+      discordMessage = createHydratedMock<IDiscordMessage>({
         content: `dummy-content`,
         id: `dummy-id`,
       });
